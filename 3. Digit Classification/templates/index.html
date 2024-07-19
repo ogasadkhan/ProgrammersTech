@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='images/bg.avif') }}");
+            object-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            /* background: gray; */
+            background-color: #f4f7f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("{{ url_for('static', filename='images/bg.avif') }}") no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("{{ url_for('static', filename='images/bgfordiv.jpg') }}") no-repeat center center;
+            background-size: cover;
+            filter: blur(8px);
+            z-index: -1;
+            border-radius: 15px;
+        }
+
+        .left-side,
+        .right-side {
+            width: 48%;
+        }
+
+        h1 {
+            color: #343a40;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            margin-top: 10px;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .form-control {
+            margin-bottom: 20px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .uploaded-img {
+            border-radius: 10px;
+            margin-top: 20px;
+            width: 300px;
+            height: 300px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .badge {
+            font-size: 1.5rem;
+            background-color: #007bff;
+        }
+    </style>
+    <title>Digit Recognition</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-side">
+            <h1>Upload an Image of a Digit</h1>
+            <form action="/" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" class="form-control">
+                <input type="submit" value="Upload" class="btn btn-primary">
+            </form>
+        </div>
+
+        <div class="right-side">
+            {% if img_path %}
+            <h2>Uploaded Image:</h2>
+            <img src="{{ img_path }}" alt="Uploaded Image" class="uploaded-img">
+            {% endif %}
+
+            {% if prediction is not none %}
+            <h2 class="mt-4">Predicted Digit: <span class="badge">{{ prediction }}</span></h2>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>
